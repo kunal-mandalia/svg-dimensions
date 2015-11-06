@@ -129,7 +129,7 @@
 	m.sampleprofile = function(){
 
 		var path = document.createElementNS(m.ns, 'path');
-		var pathd = 'M0 50 l15 0 l25.65 32 l85.7 0 l25.65 -32 l15 0 l15 0 l25.65 32 l85.7 0 l25.65 -32 l15 0 l15 0 l25.65 32 l85.7 0 l25.65 -32 l15 0 l15 0 l25.65 32 l85.7 0 l25.65 -32 l15 0 l15 0 l25.65 32 l85.7 0 l25.65 -32 l15 0 l15 0 l25.65 32 l85.7 0 l25.65 -32 l15 0';
+		var pathd = 'M0 60 l15 0 l25.65 32 l85.7 0 l25.65 -32 l15 0 l15 0 l25.65 32 l85.7 0 l25.65 -32 l15 0 l15 0 l25.65 32 l85.7 0 l25.65 -32 l15 0 l15 0 l25.65 32 l85.7 0 l25.65 -32 l15 0 l15 0 l25.65 32 l85.7 0 l25.65 -32 l15 0 l15 0 l25.65 32 l85.7 0 l25.65 -32 l15 0';
 		path.setAttributeNS(null,'stroke','black');
 		path.setAttributeNS(null,'stroke-width','4');
 		path.setAttributeNS(null,'fill','white');
@@ -138,16 +138,65 @@
 	}
 
 	m.samplemeasurements = function(){
-		m.line('horizontal','inline', 167, 0,40);//pitch
-		m.line('horizontal','above', 30, 319,40);//crown
-		m.line('vertical','below', 32, 167,54);//depth
-		m.line('horizontal','below', 85.7, 40.65,95);//trough
-		m.line('horizontal','inline', 1000, 0,10);//cover
+		// //svg path topleft (0,60)
+		//1 pitch
+		//pitch and cover are identical so only one is required
+		//m.line('horizontal','inline', 167, 0,50);//pitch
+
+		var pitch, depth, crown, cover, trough;
+		var ptlx,ptly;
+		var pitches = 6;
+
+		pitch = 167;
+		depth = 32;
+		crown = 30;
+		cover = 1000;
+		trough = 85.7;
+
+		ptlx = 0;
+		ptly = 60;
+
+
+		switch(pitches){
+			case 1:
+				//1 pitch
+				m.line('horizontal','above', crown/2, (pitch-(0.5 * crown)), ptly-12);//half crown
+				m.line('vertical','below', depth, pitch,ptly+3);//depth
+				m.line('horizontal','below', trough, (pitch-trough)/2, ptly+depth+12);//trough
+				m.line('horizontal','inline', (pitch*pitches), ptlx,ptly-40);//cover
+			break;
+
+			case 2:
+				//2 pitches
+				m.line('horizontal','inline', pitch, (crown/2)+ptlx, ptly-10);//pitch shifted half crown right
+				m.line('horizontal','above', crown, (pitch-(0.5*crown))+ptlx,ptly-22);//crown
+				m.line('vertical','above', depth, (pitch*1.5)+ptlx, ptly-3);//depth
+				m.line('horizontal','below', trough, ((pitch-trough)/2)+ptlx, ptly+depth+12);//trough
+				m.line('horizontal','inline', (pitch*pitches), 0+ptlx, ptly-50);//cover
+			break;
+
+			case 3:
+				//3 pitches
+				m.line('horizontal','inline', pitch, (1*pitch)+(crown/2)+ptlx,ptly-10);//2pitch shifted half crown right
+				m.line('horizontal','above', crown, (2*pitch-(0.5*crown))+ptlx,ptly-22);//crown
+				m.line('vertical','above', depth, (pitch*2.5)+ptlx, ptly-3);//depth
+				m.line('horizontal','below', trough, ((3*pitch-trough)/2)+ptlx, ptly+depth+12);//trough
+				m.line('horizontal','inline', (pitch*pitches), 0+ptlx, ptly-50);//cover
+			break;
+
+			default:
+				//4 or more pitches
+				m.line('horizontal','inline', pitch, (1*pitch)+(crown/2)+ptlx,ptly-10);//2pitch shifted half crown right
+				m.line('horizontal','above', crown,(3*pitch-(0.5*crown))+ptlx,ptly-10);//crown
+				m.line('vertical','above', depth, (pitch*2.5)+ptlx, ptly-3);//depth
+				m.line('horizontal','below', trough, ((3*pitch-trough)/2)+ptlx, ptly+depth+12);//trough
+				m.line('horizontal','inline', (pitch*pitches), 0+ptlx, ptly-50);//cover
+			break;
+		}
 
 	}
 
-
 window.m = m;
 console.log('loaded measurement.js');
-//m.line.horizontal(10,20,40);
+m.sampleprofile();m.samplemeasurements();
 })(window);
