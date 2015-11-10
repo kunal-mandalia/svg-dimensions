@@ -279,7 +279,7 @@
 						} 
 						else{ //trapezoidal
 
-							pitchX = x + (crown/2);
+							pitchX = x;
 							pitchY = y - 10;
 
 							crownX = x + pitch-(0.5 * crown);
@@ -312,7 +312,7 @@
 						} 
 						else{ //trapezoidal
 
-							pitchX = x + (crown/2);
+							pitchX = x;
 							pitchY = y - 10;
 
 							crownX = x + (2 * pitch ) - (0.5 * crown);
@@ -345,7 +345,7 @@
 						} 
 						else{ //trapezoidal
 
-							pitchX = x + (crown/2) + (pitch);
+							pitchX = x + (pitch);
 							pitchY = y - 10;
 
 							crownX = x + (3 * pitch ) - (0.5 * crown);
